@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -18,6 +20,19 @@ Route::get('/', function () {
 Route::get('/hola', function () {
     echo"hola!";
 }); //funcions anònimes o Closures
+
+Auth::logout();
+Auth::loginUsingId(1);
+
+//SOLID
+//SRP Single Responsability Principle
+//Que el codi faci només una cosa.
+//
+//Route::group(['middleware' => 'auth'] , function(){
+//    Route::get('/home','HomeController@index');
+//        //->middleware('auth');
+////El contrari es amb 'guest'
+//});
 
 Route::get('/home','HomeController@index');
 

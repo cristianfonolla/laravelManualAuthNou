@@ -7,10 +7,16 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use Illuminate\Support\Facades\Auth;
 use PDO;
 
 class HomeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         // $name = 'Victoria';
@@ -35,9 +41,21 @@ class HomeController extends Controller
 //        $row = $query->fetch();
         //dd($row);
 
-        $user= User::find(1);
+//        Auth::loginUsingId(1);
+//        Auth::logout();
 
-        return view('home')
-            ->withUser($user);
+
+        //Middleware
+        // S'executa enmig. Entre els usuaris i el codi
+
+
+            $user= Auth::user();
+
+            return view('home')
+                ->withUser($user);
+
+
+
+
     }
 }
