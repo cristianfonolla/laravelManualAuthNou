@@ -17,6 +17,7 @@ class HomeController extends Controller
 
     public function index()
     {
+        $this->setUserCookie();
         //ESTAT SESSIÓ
         if ($this->userIsAuthenticated()){
         $user = $this->getuser();
@@ -31,13 +32,21 @@ class HomeController extends Controller
 
     }
 
+    private function setUserCookie(){
+        $user= User::findOrFail(1);
+        setcookie('user',$user->token);
+    }
+
     private function userIsAuthenticated()
     {
-        if (isset($_GET['user'])){
-            return true;
-        }else{
-            return false;
-        }
+        //Operador ternari
+       return isset($_COOKIE['user']) ? true : false;
+//
+//        if (isset($_COOKIE['user'])){
+//            return true;
+//        }else{
+//            return false;
+//        }
 
     }
 
@@ -46,9 +55,8 @@ class HomeController extends Controller
         //Opció 1: Query_String $_GET
         //dd(json_decode($_GET['user']));
         //return json_decode($_GET['user']);
-        dd(Hash::make(1));
-        $id = $_GET['user'];
-        return User::findOrFail($id);
+        $token = $_COOKIE['user'];
+        return User::where(["token" => $token ])->first();
 
     }
 }
