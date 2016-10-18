@@ -18,4 +18,13 @@ class LoginTest extends TestCase
             ->see('Password');
  //           ->seeElement('');
     }
+
+    public function testLoginPostWithUserok()
+    {
+        $this->visit('/login')
+            ->type('user', 'cristianfonolla@gmail.com')
+         //   ->check('terms')
+            ->press('login')
+            ->seePageIs('/home');
+    }
 }
